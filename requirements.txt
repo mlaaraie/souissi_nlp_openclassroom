@@ -2,5 +2,4 @@ numpy
 pandas
 sklearn
 flask
-streamlit==1.21.1
 nltk
