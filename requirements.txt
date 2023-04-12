@@ -3,3 +3,5 @@ pandas
 sklearn
 pickle
 flask
+streamlit==1.21.1
+nltk
