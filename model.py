@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-import warnings 
-warnings.filterwarnings('ignore')
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV

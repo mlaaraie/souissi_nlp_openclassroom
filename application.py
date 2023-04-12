@@ -2,8 +2,6 @@ import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
 import pandas as pd
-import warnings 
-warnings.filterwarnings('ignore')
 from sklearn.preprocessing import StandardScaler
 import re, nltk # Sklearn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
