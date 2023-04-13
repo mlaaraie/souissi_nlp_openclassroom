@@ -30,7 +30,7 @@ def tokenizer_fct(sentence) :
 def stop_word_filter_fct(list_words):
     stop_w = nltk.download('stopwords') 
     #filtered_w = [w for w in list_words if w not in stop_w]
-    filtered_w = [w for w in list_words]
+    filtered_w = np.setdiff1d(list_words,stop_w)
     filtered_w2 = [w for w in filtered_w if len(w) > 2]
     return filtered_w2
 
