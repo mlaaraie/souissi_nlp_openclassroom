@@ -1,19 +1,15 @@
 import numpy as np
-from flask import Flask, request, jsonify, render_template
+import streamlit as st
 import pickle
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import re, nltk # Sklearn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-
-# Create flask app
-flask_app = Flask(__name__)
 model = pickle.load(open("model.pkl", "rb"))
 
-@flask_app.route("/")
-def Home():
-    return render_template("index.html")
-@flask_app.route("/predict", methods = ["POST"])
+st.title("StackOverflow Tag Predection")
+st.text_area("Insert your question here", value="")
+
 def predict():
     def preparing(sentence):
 
@@ -102,7 +98,3 @@ def predict():
     elif prediction == 11:
         topic = 'python'
     
-    return render_template("index.html", prediction_text = "The Topic is {}".format(topic))
-
-if __name__ == "__main__":
-    flask_app.run(debug=True)
