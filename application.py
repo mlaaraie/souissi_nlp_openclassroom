@@ -7,6 +7,8 @@ import re, nltk # Sklearn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
+
+nltk.download('punkt')
     
 model = pickle.load(open("model.pkl", "rb"))
 
