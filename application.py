@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 model = pickle.load(open("model.pkl", "rb"))
 
 st.title("StackOverflow Tag Predection")
-st.text_area("Insert your question here", value="")
+sentence = st.text_area("Insert your question here", value="")
 
 def predict():
     def preparing(sentence):
@@ -68,7 +68,6 @@ def predict():
         vector_text = vectorization(clean_text)
         return(vector_text)
     
-    sentence = request.form["text"]
     sentence = preparing(sentence)
     
     prediction = model.predict(sentence)
