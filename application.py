@@ -105,4 +105,4 @@ def predict():
     return render_template("index.html", prediction_text = "The Topic is {}".format(topic))
 
 if __name__ == "__main__":
-    flask_app.run(debug=True, host='0.0.0.0')
+    flask_app.run(debug=True)
