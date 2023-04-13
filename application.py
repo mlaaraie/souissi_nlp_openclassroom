@@ -39,7 +39,7 @@ def lower_start_fct(list_words) :
     return lw
 
 def vectorization(sentence):
-    data = pd.read_csv("/home/souissi/Documents/Projet5/test/cleaned_data.csv")
+    data = pd.read_csv("cleaned_data.csv")
     vectorizer=CountVectorizer(analyzer='word',min_df=2) # vectorizer: vector
     data_vectorized=vectorizer.fit_transform(data['text'])
     sentence = pd.Series(sentence)
