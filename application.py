@@ -98,3 +98,4 @@ def predict():
     elif prediction == 11:
         topic = 'python'
     
+st.markdown("the topic is: " + topic)
