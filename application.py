@@ -11,64 +11,61 @@ st.title("StackOverflow Tag Predection")
 sentence = st.text_area("Insert your question here", value="")
 topic = ""
 
-def predict():
-    def preparing(sentence):
+def lemma_fct(list_words) :
+    lemmatizer = WordNetLemmatizer()
+    lem_w = [lemmatizer.lemmatize(w) for w in list_words]
+    return lem_w
 
-        def clean(text):
-            # Tokenizer
-            import nltk
-            from nltk.tokenize import sent_tokenize, word_tokenize
+def tokenizer_fct(sentence) :
+    sentence_clean = sentence.replace('-', ' ').replace('+', ' ').replace('/', ' ').replace('#', ' ')
+    word_tokens = word_tokenize(sentence_clean)
+    return word_tokens
 
-            def tokenizer_fct(sentence) :
-                # print(sentence)
-                sentence_clean = sentence.replace('-', ' ').replace('+', ' ').replace('/', ' ').replace('#', ' ')
-                word_tokens = word_tokenize(sentence_clean)
-                return word_tokens
+def stop_word_filter_fct(list_words) :
+    filtered_w = [w for w in list_words if not w in stop_w]
+    filtered_w2 = [w for w in filtered_w if len(w) > 2]
+    return filtered_w2
 
-            # Stop words
-            from nltk.corpus import stopwords
-            stop_w = list(set(stopwords.words('english'))) + ['[', ']', ',', '.', ':', '?', '(', ')']
+def lower_start_fct(list_words) :
+    lw = [w.lower() for w in list_words if (not w.startswith("@")) and (not w.startswith("http"))]
+    return lw
 
-            def stop_word_filter_fct(list_words) :
-                filtered_w = [w for w in list_words if not w in stop_w]
-                filtered_w2 = [w for w in filtered_w if len(w) > 2]
-                return filtered_w2
+def vectorization(sentence):
+    data = pd.read_csv("/home/souissi/Documents/Projet5/test/cleaned_data.csv")
+    vectorizer=CountVectorizer(analyzer='word',min_df=2) # vectorizer: vector
+    data_vectorized=vectorizer.fit_transform(data['text'])
+    sentence = pd.Series(sentence)
+    vectorized_data = vectorizer.transform(sentence)
+    vectorized_data = pd.DataFrame(vectorized_data.toarray())
+    return(vectorized_data)
 
-            # lower case et alpha
-            def lower_start_fct(list_words) :
-                lw = [w.lower() for w in list_words if (not w.startswith("@")) 
-        #                                   and (not w.startswith("#"))
-                                            and (not w.startswith("http"))]
-                return lw
 
-            # Lemmatizer (base d'un mot)
-            from nltk.stem import WordNetLemmatizer
+def clean(text):
+    # Tokenizer
+    import nltk
+    from nltk.tokenize import sent_tokenize, word_tokenize
+    # Stop words
+    from nltk.corpus import stopwords
+    stop_w = list(set(stopwords.words('english'))) + ['[', ']', ',', '.', ':', '?', '(', ')']            
+    # Lemmatizer (base d'un mot)
+    from nltk.stem import WordNetLemmatizer
+    word_tokens = tokenizer_fct(text)
+    sw = stop_word_filter_fct(word_tokens)
+    lw = lower_start_fct(sw)
+    lem_w = lemma_fct(lw)    
+    transf_desc_text = ' '.join(lw)
+    return transf_desc_text
 
-            def lemma_fct(list_words) :
-                lemmatizer = WordNetLemmatizer()
-                lem_w = [lemmatizer.lemmatize(w) for w in list_words]
-                return lem_w
+def preparing(sentence):
+    clean_text = clean(sentence)
+    vector_text = vectorization(clean_text)
+    return(vector_text)
 
-            word_tokens = tokenizer_fct(text)
-            sw = stop_word_filter_fct(word_tokens)
-            lw = lower_start_fct(sw)
-            lem_w = lemma_fct(lw)    
-            transf_desc_text = ' '.join(lw)
-            return transf_desc_text
 
-        def vectorization(sentence):
-            data = pd.read_csv("/home/souissi/Documents/Projet5/test/cleaned_data.csv")
-            vectorizer=CountVectorizer(analyzer='word',min_df=2) # vectorizer: vector
-            data_vectorized=vectorizer.fit_transform(data['text'])
-            sentence = pd.Series(sentence)
-            vectorized_data = vectorizer.transform(sentence)
-            vectorized_data = pd.DataFrame(vectorized_data.toarray())
-            return(vectorized_data)
-    
-        clean_text = clean(sentence)
-        vector_text = vectorization(clean_text)
-        return(vector_text)
-    
+
+
+
+if st.button("Predict"):
     sentence = preparing(sentence)
     
     prediction = model.predict(sentence)
@@ -98,4 +95,6 @@ def predict():
     elif prediction == 11:
         topic = 'python'
         
-st.text("the topic is: " + topic)
+    st.text("the topic is: " + topic)
+    
+    
