@@ -5,6 +5,9 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import re, nltk # Sklearn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.stem import WordNetLemmatizer
+    
 model = pickle.load(open("model.pkl", "rb"))
 
 st.title("StackOverflow Tag Predection")
@@ -21,7 +24,8 @@ def tokenizer_fct(sentence) :
     word_tokens = word_tokenize(sentence_clean)
     return word_tokens
 
-def stop_word_filter_fct(list_words) :
+def stop_word_filter_fct(list_words):
+    stop_w = nltk.download('stopwords') 
     filtered_w = [w for w in list_words if not w in stop_w]
     filtered_w2 = [w for w in filtered_w if len(w) > 2]
     return filtered_w2
@@ -40,15 +44,7 @@ def vectorization(sentence):
     return(vectorized_data)
 
 
-def clean(text):
-    # Tokenizer
-    import nltk
-    from nltk.tokenize import sent_tokenize, word_tokenize
-    # Stop words
-    from nltk.corpus import stopwords
-    stop_w = nltk.download('stopwords')            
-    # Lemmatizer (base d'un mot)
-    from nltk.stem import WordNetLemmatizer
+def clean(text):           
     word_tokens = tokenizer_fct(text)
     sw = stop_word_filter_fct(word_tokens)
     lw = lower_start_fct(sw)
