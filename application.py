@@ -97,5 +97,4 @@ def predict():
         topic = 'php'
     elif prediction == 11:
         topic = 'python'
-    
-st.markdown("the topic is: " + topic)
+    st.markdown("the topic is: " + topic)
