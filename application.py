@@ -46,7 +46,7 @@ def clean(text):
     from nltk.tokenize import sent_tokenize, word_tokenize
     # Stop words
     from nltk.corpus import stopwords
-    stop_w = list(set(stopwords.words('english'))) + ['[', ']', ',', '.', ':', '?', '(', ')']            
+    stop_w = nltk.download('stopwords') + ['[', ']', ',', '.', ':', '?', '(', ')']            
     # Lemmatizer (base d'un mot)
     from nltk.stem import WordNetLemmatizer
     word_tokens = tokenizer_fct(text)
