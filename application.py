@@ -9,6 +9,7 @@ model = pickle.load(open("model.pkl", "rb"))
 
 st.title("StackOverflow Tag Predection")
 sentence = st.text_area("Insert your question here", value="")
+topic = ""
 
 def predict():
     def preparing(sentence):
@@ -96,4 +97,5 @@ def predict():
         topic = 'php'
     elif prediction == 11:
         topic = 'python'
-    st.markdown("the topic is: " + topic)
+        
+st.text("the topic is: " + topic)
