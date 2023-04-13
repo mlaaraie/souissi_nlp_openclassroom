@@ -9,6 +9,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
 
 nltk.download('punkt')
+nltk.download('wordnet')
     
 model = pickle.load(open("model.pkl", "rb"))
 
